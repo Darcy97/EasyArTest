@@ -213,6 +213,7 @@
     <Compile Include="Assets\NGUI\Scripts\UI\UITooltip.cs" />
     <Compile Include="Assets\NGUI\Scripts\UI\UIViewport.cs" />
     <Compile Include="Assets\Scripts\AgeInputLimit.cs" />
+    <Compile Include="Assets\Scripts\ChoseBooks.cs" />
     <Compile Include="Assets\Scripts\InitViewButtonControl.cs" />
   </ItemGroup>
   <ItemGroup>
