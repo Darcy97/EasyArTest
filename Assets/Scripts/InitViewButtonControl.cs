@@ -8,6 +8,8 @@ public class InitViewButtonControl : MonoBehaviour {
 
     public UIButton registerButton;
 
+    private Dictionary<string, string> accounts;
+
     //public UIInput nickNameInput;
     //public UIInput password;
     //public UIInput ageInput;
@@ -20,6 +22,14 @@ public class InitViewButtonControl : MonoBehaviour {
 
  
 
+    /// <summary>
+    /// nickname
+    /// password
+    /// age
+    /// name
+    /// sex
+    /// email
+    /// </summary>
     public UIInput[] inputs;
     public TweenColor[] tweenColors;
 
@@ -27,6 +37,11 @@ public class InitViewButtonControl : MonoBehaviour {
     public TweenPosition registerVIewTweenPosition;
     public TweenPosition loginViewTweenPosition;
     public TweenPosition choseBookViewTweenPosition;
+
+    private void Awake()
+    {
+        accounts = new Dictionary<string, string>();
+    }
     public void OnLoginButtonClick()
     {
         loginViewTweenPosition.PlayForward();
@@ -42,23 +57,25 @@ public class InitViewButtonControl : MonoBehaviour {
         print("Register");
     }
 
-
     public UIInput loginNameInput;
     public UIInput loginPasswordInput;
     public GameObject alert;
     public void OnLoginSubmittButtonClick()
     {
-
-        if (loginNameInput.value == "Darcy" && loginPasswordInput.value == "12345678")
+        foreach(KeyValuePair<string, string> account in accounts)
         {
-            loginViewTweenPosition.PlayReverse();
-            choseBookViewTweenPosition.PlayForward();
-        } else
-        {
-            alert.SetActive(true);
-            alert.GetComponent<TweenColor>().ResetToBeginning();
-            alert.GetComponent<TweenColor>().PlayForward();
-        }
+            if (loginNameInput.value == account.Key && loginPasswordInput.value == account.Value)
+            {
+                loginViewTweenPosition.PlayReverse();
+                choseBookViewTweenPosition.PlayForward();
+            }
+            else
+            {
+                alert.SetActive(true);
+                alert.GetComponent<TweenColor>().ResetToBeginning();
+                alert.GetComponent<TweenColor>().PlayForward();
+            }
+        }    
     }
 
     public void OnFinishPlayAlert()
@@ -93,7 +110,8 @@ public class InitViewButtonControl : MonoBehaviour {
 
 
         //实现register逻辑
-        print("register");
+        accounts.Add(inputs[0].value, inputs[1].value);
+        
 
 
         //跳转到登陆界面
@@ -148,7 +166,6 @@ public class InitViewButtonControl : MonoBehaviour {
     {
 
     }
-
 
     //enum AnimationType
     //{
