@@ -41,6 +41,8 @@ public class InitViewButtonControl : MonoBehaviour {
     private void Awake()
     {
         accounts = new Dictionary<string, string>();
+        alert = GameObject.Find("Alert");
+        alert.SetActive(false);
     }
     public void OnLoginButtonClick()
     {
@@ -51,7 +53,7 @@ public class InitViewButtonControl : MonoBehaviour {
 
     public void OnRegisterButtonClick()
     {
-        startViewTweenPosition.PlayForward();
+        loginViewTweenPosition.PlayForward();
         registerVIewTweenPosition.PlayForward();
         
         print("Register");
@@ -59,19 +61,39 @@ public class InitViewButtonControl : MonoBehaviour {
 
     public UIInput loginNameInput;
     public UIInput loginPasswordInput;
-    public GameObject alert;
+    private GameObject alert;
     public void OnLoginSubmittButtonClick()
     {
+
+        //测试用
+        if (loginNameInput.value == "darcy" && loginPasswordInput.value == "123")
+        {
+            loginViewTweenPosition.PlayForward();
+            choseBookViewTweenPosition.PlayForward();
+            loginNameInput.value = "";
+            loginPasswordInput.value = "";
+
+            return;
+        }
+        if (accounts.Count == 0)
+        {
+            alert.SetActive(true);
+
+            alert.GetComponent<TweenColor>().ResetToBeginning();
+            alert.GetComponent<TweenColor>().PlayForward();
+        }
         foreach(KeyValuePair<string, string> account in accounts)
         {
             if (loginNameInput.value == account.Key && loginPasswordInput.value == account.Value)
             {
-                loginViewTweenPosition.PlayReverse();
+                loginViewTweenPosition.PlayForward();
                 choseBookViewTweenPosition.PlayForward();
-            }
-            else
+                loginNameInput.value = "";
+                loginPasswordInput.value = "";
+            } else
             {
                 alert.SetActive(true);
+                
                 alert.GetComponent<TweenColor>().ResetToBeginning();
                 alert.GetComponent<TweenColor>().PlayForward();
             }
@@ -94,15 +116,6 @@ public class InitViewButtonControl : MonoBehaviour {
                 PlayAnimation(i);
                 return;
 
-            } else if (i == 2)
-            {
-                
-                int intValue = int.Parse(inputs[i].value);
-                if (intValue < AgeInputLimit.minAge || intValue > AgeInputLimit.maxAge)
-                {
-                    PlayAnimation(2);
-                    return;
-                }
             }     
         }
 
@@ -117,7 +130,7 @@ public class InitViewButtonControl : MonoBehaviour {
         //跳转到登陆界面
         
         registerVIewTweenPosition.PlayReverse();
-        loginViewTweenPosition.PlayForward();
+        loginViewTweenPosition.PlayReverse();
 
 
         /*if (nickNameInput.value == "")
@@ -140,13 +153,20 @@ public class InitViewButtonControl : MonoBehaviour {
         }
         */
 
+        foreach(UIInput input in inputs)
+        {
+            input.value = "";
+        }
+
+        
+
 
 
     }
 
     public void OnRegisterViewBackButtonClick()
     {
-        startViewTweenPosition.PlayReverse();
+        loginViewTweenPosition.PlayReverse();
         registerVIewTweenPosition.PlayReverse();
     }
 
@@ -158,7 +178,7 @@ public class InitViewButtonControl : MonoBehaviour {
 
     public void OnChoseBookViewBackButtonClick()
     {
-        loginViewTweenPosition.PlayForward();
+        loginViewTweenPosition.PlayReverse();
         choseBookViewTweenPosition.PlayReverse();
     }
 
