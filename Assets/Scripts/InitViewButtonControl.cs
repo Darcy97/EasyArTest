@@ -44,6 +44,15 @@ public class InitViewButtonControl : MonoBehaviour {
         alert = GameObject.Find("Alert");
         alert.SetActive(false);
     }
+
+    private void Start()
+    {
+        if (GlobalInformation.Instance.isLogin == true)
+        {
+            loginViewTweenPosition.PlayForward();
+            choseBookViewTweenPosition.PlayForward();
+        }
+    }
     public void OnLoginButtonClick()
     {
         loginViewTweenPosition.PlayForward();
@@ -72,7 +81,7 @@ public class InitViewButtonControl : MonoBehaviour {
             choseBookViewTweenPosition.PlayForward();
             loginNameInput.value = "";
             loginPasswordInput.value = "";
-
+            GlobalInformation.Instance.isLogin = true;
             return;
         }
         if (accounts.Count == 0)
@@ -88,6 +97,7 @@ public class InitViewButtonControl : MonoBehaviour {
             {
                 loginViewTweenPosition.PlayForward();
                 choseBookViewTweenPosition.PlayForward();
+                GlobalInformation.Instance.isLogin = true;
                 loginNameInput.value = "";
                 loginPasswordInput.value = "";
             } else
